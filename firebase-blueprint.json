@@ -1,0 +1,129 @@
+{
+  "entities": {
+    "users": {
+      "title": "Users",
+      "description": "User accounts and role metadata (Admin, Dispatcher, Driver)",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "dispatcher", "driver"] },
+        "driverId": { "type": "string" },
+        "phone": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "displayName", "role"]
+    },
+    "vehicles": {
+      "title": "Vehicles",
+      "description": "Fleet assets with real-time GPS telemetry, fuel, status, and maintenance",
+      "type": "object",
+      "properties": {
+        "plateNumber": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "capacity": { "type": "string" },
+        "status": { "type": "string", "enum": ["moving", "idle", "delayed", "offline"] },
+        "fuelLevel": { "type": "number" },
+        "assignedDriverId": { "type": "string" },
+        "assignedHubId": { "type": "string" }
+      },
+      "required": ["plateNumber", "name", "status", "fuelLevel"]
+    },
+    "drivers": {
+      "title": "Drivers",
+      "description": "Commercial drivers, license details, assigned vehicles, and ratings",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "assignedVehicleId": { "type": "string" },
+        "status": { "type": "string" },
+        "rating": { "type": "number" },
+        "licenseExpiry": { "type": "string" }
+      },
+      "required": ["name", "status"]
+    },
+    "shipments": {
+      "title": "Shipments",
+      "description": "Freight shipments, waypoints, live tracking progress, and ETA",
+      "type": "object",
+      "properties": {
+        "trackingNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "in_transit", "delivered", "delayed"] },
+        "priority": { "type": "string", "enum": ["standard", "express", "urgent"] },
+        "assignedVehicleId": { "type": "string" },
+        "assignedDriverId": { "type": "string" },
+        "progress": { "type": "number" }
+      },
+      "required": ["trackingNumber", "status"]
+    },
+    "hubs": {
+      "title": "Hubs",
+      "description": "Warehouses, distribution centers, and terminal hubs",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "code": { "type": "string" },
+        "address": { "type": "string" },
+        "capacityVehicles": { "type": "number" }
+      },
+      "required": ["name", "code", "address"]
+    },
+    "alerts": {
+      "title": "Alerts",
+      "description": "System alerts for delays, low fuel, geofencing breaches, and maintenance",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "severity": { "type": "string", "enum": ["critical", "warning", "info"] },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["type", "severity", "title", "timestamp"]
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Platform settings, refresh rate, and company details",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "gpsRefreshRate": { "type": "number" }
+      },
+      "required": ["companyName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/users" },
+      "description": "User profiles and system roles"
+    },
+    "/vehicles/{vehicleId}": {
+      "schema": { "$ref": "#/entities/vehicles" },
+      "description": "Commercial fleet vehicles and live GPS telemetry"
+    },
+    "/drivers/{driverId}": {
+      "schema": { "$ref": "#/entities/drivers" },
+      "description": "Fleet drivers and compliance"
+    },
+    "/shipments/{shipmentId}": {
+      "schema": { "$ref": "#/entities/shipments" },
+      "description": "Freight shipments and active dispatch manifests"
+    },
+    "/hubs/{hubId}": {
+      "schema": { "$ref": "#/entities/hubs" },
+      "description": "Distribution centers and staging hubs"
+    },
+    "/alerts/{alertId}": {
+      "schema": { "$ref": "#/entities/alerts" },
+      "description": "Incident alerts and telematics notifications"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/settings" },
+      "description": "Platform configuration settings"
+    }
+  }
+}

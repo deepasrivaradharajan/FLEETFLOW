@@ -1,0 +1,8 @@
+{
+  "name": "FleetFlow - Logistics & Fleet Tracking Platform",
+  "description": "Real-time logistics, fleet management, and GPS tracking system with live telemetry, fuel monitoring, shipment routing, and dispatch operations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
